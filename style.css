@@ -16,10 +16,9 @@ nav {
 
 main {
     display: grid;
-    grid-template-rows: 1fr 1fr 1fr;
     grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
     border: solid black;
-    height: 60vh;
 }
 
 .book-grid {
@@ -57,4 +56,30 @@ form {
     padding: 10px;
     height: 150px;
     width: 200px;
+}
+
+p {
+    display: flex;
+    flex: 1;
+    margin: 0;
+    padding: 0;
+}
+
+#bookDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+}
+
+#readTrue {
+    background-color: green;
+    cursor: pointer;
+}
+
+#readFalse {
+    background-color: red;
+    cursor: pointer;
 }

@@ -34,30 +34,101 @@ function addBookToLibrary() {
         var test = document.getElementById("form-card");
         test.style.display = "none";
 
-        addBookUi();
+        addBookUi(book1);
     }
 }
 
-const mainGrid = document.querySelector("#main")
 
-function addBookUi() {
+let listedBooks = [];
 
-    for (let i = 0; i < myLibrary.length; i++) {
+
+function addBookUi(newBook) {
+
+    const mainGrid = document.querySelector("#main")
+
+    let existingBook = listedBooks.find(book => book.title === newBook.title)
+
+    if (existingBook === undefined) {
+
         var bookDiv = document.createElement("div");
-        mainGrid.appendChild(bookDiv)
-        var bookTitle = document.createTextNode("Title:" + myLibrary[i].title)
-        bookDiv.appendChild(bookTitle);
-    }
-}
+        bookDiv.id = "bookDiv"
+        mainGrid.appendChild(bookDiv);
 
+        var bookTitle = document.createElement("p");
+        var bookAuthor = document.createElement("p");
+        var bookPages = document.createElement("p");
+
+        bookTitle.innerText = ("Title: " + newBook.title);
+        bookAuthor.innerText = ("Author: " + newBook.author);
+        bookPages.innerText = ("Pages: " + newBook.pages);
+
+        bookDiv.appendChild(bookTitle);
+        bookDiv.appendChild(bookAuthor);
+        bookDiv.appendChild(bookPages);
+
+        var removeButton = document.createElement("button");
+        removeButton.innerText = "Remove";
+        bookDiv.appendChild(removeButton);
+
+        removeButton.addEventListener("click", () => {
+
+            let bookIndex = myLibrary.indexOf(newBook);
+    
+            myLibrary.splice(bookIndex, 1);
+    
+            bookDiv.remove();
+        });
+    }
+
+    
+        if (newBook.haveRead === true) {
+            var readTrue = document.createElement("button");
+            readTrue.innerText = "Read"
+            readTrue.style.backgroundColor = "green"
+            bookDiv.appendChild(readTrue);
+
+            readTrue.addEventListener("click", () => {
+                let bookIndex = myLibrary.indexOf(newBook);
+                myLibrary[bookIndex].haveRead = !myLibrary[bookIndex].haveRead;
+
+                if (myLibrary[bookIndex].haveRead) {
+                    readTrue.innerText = "Read";
+                    readTrue.style.backgroundColor = "green";
+                } else {
+                    readTrue.innerText = "Not read";
+                    readTrue.style.backgroundColor = "red";
+                }
+
+            })
+
+        } else if (newBook.haveRead === false) {
+            var readFalse = document.createElement("button");
+            readFalse.innerText = "Not read"
+            readFalse.style.backgroundColor = "red"
+            bookDiv.appendChild(readFalse);
+
+            readFalse.addEventListener("click", () => {
+                let bookIndex = myLibrary.indexOf(newBook);
+                myLibrary[bookIndex].haveRead = !myLibrary[bookIndex].haveRead;
+
+                if (myLibrary[bookIndex].haveRead) {
+                    readFalse.innerText = "Read";
+                    readFalse.style.backgroundColor = "green";
+                } else {
+                    readFalse.innerText = "Not read";
+                    readFalse.style.backgroundColor = "red";
+                }
+
+            })
+
+        }
+
+        listedBooks.push(newBook);
+    }
 
 const submitBtn = document.querySelector("#submit");
 
 submitBtn.addEventListener("click", addBookToLibrary);
-
-
-
-
 
 
 const addBookBtn = document.querySelector(".add-book-btn")

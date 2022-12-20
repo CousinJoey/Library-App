@@ -4,21 +4,49 @@ body {
     font-family: sans-serif;
     min-height: 100vh;
     gap: 10px;
+    margin: 0px;
+    background-color: #e7e5e4;
 }
 
 nav {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    border: solid black;
-    height: 20vh;
+    height: 10vh;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+}
+
+.intro-text {
+    font-size: 42px;
+}
+
+.txt-next-to-btn {
+    font-size: 24px;
+}
+
+.add-btn-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.add-book-btn {
+    font-size: 20px;
+    width: 150px;
+    height: 30px;
+    border-radius: 8px;
+    background-color: green;
+    border: none;
 }
 
 main {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto;
-    border: solid black;
+    padding: 20px;
+    gap: 20px;
 }
 
 .book-grid {
@@ -43,19 +71,49 @@ svg {
     cursor: pointer;
 }
 
-form {
+.item1 {grid-area: title;}
+.item2 {grid-area: author;}
+.item3 {grid-area: pages;}
+.item4 {grid-area: haveRead; 
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding: 20px;
+    font-size: 20px;
+    gap: 10px;
+}
+.item5 {grid-area: submitbtn; height: 40px; font-size: 20px;}
+
+form {
+    display: grid;
+    grid-template:
+        "title title"
+        "author pages"
+        "haveRead haveRead"
+        "submitbtn submitbtn";
+    margin-top: 20px;
+    gap: 10px;
 }
 
 #form-card {
     display: none;
-    border: solid black;
+    background-color: rgba(151, 151, 151, 0.6);
     padding: 10px;
-    height: 150px;
-    width: 200px;
+    border-radius: 8px;
+}
+
+input[type=text] {
+    padding: 8px;
+    font-size: 20px;
+}
+
+input[type=number] {
+    padding: 8px;
+    font-size: 20px;
+}
+
+input[type=checkbox] {
+    height: 20px;
+    width: 20px;
 }
 
 p {
@@ -63,6 +121,14 @@ p {
     flex: 1;
     margin: 0;
     padding: 0;
+    font-size: 20px;
+    text-align: center;
+}
+
+.bookTitle {
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #bookDiv {
@@ -72,14 +138,22 @@ p {
     align-items: center;
     padding: 10px;
     gap: 10px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
 }
 
-#readTrue {
-    background-color: green;
-    cursor: pointer;
+.button1 {
+    height: 30px;
+    width: 50%;
+    border-radius: 8px;
+    border: none;
 }
 
-#readFalse {
-    background-color: red;
-    cursor: pointer;
+.button2 {
+    height: 30px;
+    width: 50%;
+    border-radius: 8px;
+    border: none;
+    background-color: #e7e5e4;
 }

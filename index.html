@@ -10,15 +10,12 @@
 </head>
 <body class="fail-safe">
     <nav>
-        <button class="add-book-btn">Add</button>
+        <div class="intro-text">Library App</div>
+        <div class="add-btn-container">
+            <button class="add-book-btn">Add New Book</button>
+        </div>
     </nav>
     <main id="main">
-        <div id="bookDiv">
-            <p>Title: pop music</p>
-            <p>Author: post malone</p>
-            <p>Pages: 87</p>
-            <p>Read</p>
-        </div>
     </main>
     <footer class="toggle">
         <div id="form-card">
@@ -28,14 +25,14 @@
             </svg>
             </div>
         <form onsubmit="event.preventDefault();">
-            <input type="text" id="title" name="title" placeholder="Title" required>
-            <input type="text" id="author" name="author" placeholder="Author" required>
-            <input type="number" id="pages" name="pages" placeholder="pages" required>
-            <div class="read-check">
-                <label for="is-read">Have you read it?</label>
+            <input class="item1" type="text" id="title" name="title" placeholder="Title" required>
+            <input class="item2" type="text" id="author" name="author" placeholder="Author" required>
+            <input class="item3" type="number" id="pages" name="pages" placeholder="pages" required>
+            <div class="read-check item4" >
+                <label class="label-read" for="is-read">Have you read it?</label>
                 <input type="checkbox" class="checkbox" id="is-read">
             </div>
-            <button id="submit">Submit</button>
+            <button id="submit" class="item5">Submit</button>
         </form>
         </div>
     </footer>

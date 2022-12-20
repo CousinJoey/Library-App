@@ -1,6 +1,8 @@
 
 let myLibrary = []
 
+let listedBooks = []
+
 
 function Book(title, author, pages, haveRead) {
     this.title = title;
@@ -11,120 +13,132 @@ function Book(title, author, pages, haveRead) {
 
 
 function addBookToLibrary() {
-    
+
     var titleValue = document.getElementById("title").value;
     var authorValue = document.getElementById("author").value;
     var pagesValue = document.getElementById("pages").value;
     var checkValue = document.getElementById("is-read").checked;
 
-    const sameBook = myLibrary.some(element => {
-        if (element.title === titleValue && element.author === authorValue) {
+    const isSameBook = myLibrary.some(element => {
+        if (element.title === titleValue) {
             return true;
         }
 
         return false;
     });
 
-    if (sameBook === true) {
-        alert("Book already added");
-    } else if (titleValue != "" && sameBook === false && authorValue != "" && pagesValue != "") {
-        const book1 = new Book(titleValue, authorValue, pagesValue, checkValue)
-        myLibrary.push(book1)
-        
-        var test = document.getElementById("form-card");
-        test.style.display = "none";
+    isSameBook ? alert("Book is already added") : emptyFieldsCheck(titleValue, authorValue, pagesValue, checkValue);
 
-        addBookUi(book1);
+}
+
+
+function emptyFieldsCheck(titleValue, authorValue, pagesValue, checkValue) {
+    if (titleValue === "" || authorValue === "" || pagesValue === "") {
+        return
+    } else {
+        appendNewBook(titleValue, authorValue, pagesValue, checkValue)
+        console.log(titleValue);
     }
 }
 
 
-let listedBooks = [];
+function appendNewBook(titleValue, authorValue, pagesValue, checkValue) {
+    const newBook = new Book(titleValue, authorValue, pagesValue, checkValue);
+    console.log(newBook)
+    myLibrary.push(newBook);
+
+    var formCard = document.getElementById("form-card");
+    formCard.style.display = "none";
+
+    checkIfRepeatedUi(newBook)
+}
 
 
-function addBookUi(newBook) {
+function checkIfRepeatedUi(newBook) {
 
-    const mainGrid = document.querySelector("#main")
+    let selectedBook = listedBooks.find(book => book.title === newBook.title)
 
-    let existingBook = listedBooks.find(book => book.title === newBook.title)
-
-    if (existingBook === undefined) {
-
-        var bookDiv = document.createElement("div");
-        bookDiv.id = "bookDiv"
-        mainGrid.appendChild(bookDiv);
-
-        var bookTitle = document.createElement("p");
-        var bookAuthor = document.createElement("p");
-        var bookPages = document.createElement("p");
-
-        bookTitle.innerText = ("Title: " + newBook.title);
-        bookAuthor.innerText = ("Author: " + newBook.author);
-        bookPages.innerText = ("Pages: " + newBook.pages);
-
-        bookDiv.appendChild(bookTitle);
-        bookDiv.appendChild(bookAuthor);
-        bookDiv.appendChild(bookPages);
-
-        var removeButton = document.createElement("button");
-        removeButton.innerText = "Remove";
-        bookDiv.appendChild(removeButton);
-
-        removeButton.addEventListener("click", () => {
-
-            let bookIndex = myLibrary.indexOf(newBook);
-    
-            myLibrary.splice(bookIndex, 1);
-    
-            bookDiv.remove();
-        });
+    if (selectedBook === undefined) {
+        createBookUi(newBook);
     }
 
-    
-        if (newBook.haveRead === true) {
-            var readTrue = document.createElement("button");
-            readTrue.innerText = "Read"
-            readTrue.style.backgroundColor = "green"
-            bookDiv.appendChild(readTrue);
+}
 
-            readTrue.addEventListener("click", () => {
-                let bookIndex = myLibrary.indexOf(newBook);
-                myLibrary[bookIndex].haveRead = !myLibrary[bookIndex].haveRead;
 
-                if (myLibrary[bookIndex].haveRead) {
-                    readTrue.innerText = "Read";
-                    readTrue.style.backgroundColor = "green";
-                } else {
-                    readTrue.innerText = "Not read";
-                    readTrue.style.backgroundColor = "red";
-                }
+function createBookUi(newBook) {
 
-            })
+    const mainGrid = document.querySelector("#main");
 
-        } else if (newBook.haveRead === false) {
-            var readFalse = document.createElement("button");
-            readFalse.innerText = "Not read"
-            readFalse.style.backgroundColor = "red"
-            bookDiv.appendChild(readFalse);
+    var bookDiv = document.createElement("div");
+    bookDiv.id = "bookDiv"
 
-            readFalse.addEventListener("click", () => {
-                let bookIndex = myLibrary.indexOf(newBook);
-                myLibrary[bookIndex].haveRead = !myLibrary[bookIndex].haveRead;
+    var bookTitle = document.createElement("p");
+    bookTitle.classList = "bookTitle"
+    var bookAuthor = document.createElement("p");
+    var bookPages = document.createElement("p");
+    var removeButton = document.createElement("button");
+    removeButton.classList = "button2"
 
-                if (myLibrary[bookIndex].haveRead) {
-                    readFalse.innerText = "Read";
-                    readFalse.style.backgroundColor = "green";
-                } else {
-                    readFalse.innerText = "Not read";
-                    readFalse.style.backgroundColor = "red";
-                }
+    bookTitle.innerText = ("'" + newBook.title + "'");
+    bookAuthor.innerText = (newBook.author);
+    bookPages.innerText = ("Pages: " + newBook.pages);
+    removeButton.innerText = "Remove";
 
-            })
+    mainGrid.appendChild(bookDiv);
+    bookDiv.appendChild(bookTitle);
+    bookDiv.appendChild(bookAuthor);
+    bookDiv.appendChild(bookPages);
 
-        }
+    removeButton.addEventListener("click", () => removeBook(newBook, bookDiv));
 
-        listedBooks.push(newBook);
+    if (newBook.haveRead === true) {
+        var readIsTrue = document.createElement("button");
+        readIsTrue.innerText = "Read";
+        readIsTrue.style.backgroundColor = "green";
+        readIsTrue.classList = "button1"
+        bookDiv.appendChild(readIsTrue); 
+        readIsTrue.addEventListener("click", () => changeTrueToFalse(newBook, readIsTrue));
+    } else if (newBook.haveRead === false) {
+        var readIsFalse = document.createElement("button");
+        readIsFalse.innerText = "Not read";
+        readIsFalse.style.backgroundColor = "red";
+        readIsFalse.classList = "button1"
+        bookDiv.appendChild(readIsFalse);
+        readIsFalse.addEventListener("click", () => changeFalseToTrue(newBook, readIsFalse)); 
     }
+
+    bookDiv.appendChild(removeButton);
+
+}
+
+function changeTrueToFalse(newBook, readIsTrue) {
+    let bookIndex = myLibrary.indexOf(newBook);
+    myLibrary[bookIndex].haveRead = !myLibrary[bookIndex].haveRead;
+
+    myLibrary[bookIndex].haveRead ? (readIsTrue.innerText = "Read" , readIsTrue.style.backgroundColor = "green") : (readIsTrue.innerText = "Not read", readIsTrue.style.backgroundColor = "red");
+}
+
+function changeFalseToTrue(newBook, readIsFalse) {
+    let bookIndex = myLibrary.indexOf(newBook);
+    myLibrary[bookIndex].haveRead = !myLibrary[bookIndex].haveRead;
+
+    myLibrary[bookIndex].haveRead ? (readIsFalse.innerText = "Read", readIsFalse.style.backgroundColor = "green") : (readIsFalse.innerText = "Not read" , readIsFalse.style.backgroundColor = "red")
+}
+
+
+
+function removeBook(newBook, bookDiv) {
+
+    let bookIndex = myLibrary.indexOf(newBook);
+
+    myLibrary.splice(bookIndex, 1);
+
+    bookDiv.remove();
+
+}
+
+
+
 
 const submitBtn = document.querySelector("#submit");
 
@@ -136,8 +150,8 @@ const addBookBtn = document.querySelector(".add-book-btn")
 addBookBtn.addEventListener("click", openBookWindow);
 
 function openBookWindow() {
-    var test = document.getElementById("form-card");
-    test.style.display = "block"
+    var formCard = document.getElementById("form-card");
+    formCard.style.display = "block"
 }
 
 const closeBookWindow = document.querySelector(".x")
@@ -145,6 +159,7 @@ const closeBookWindow = document.querySelector(".x")
 closeBookWindow.addEventListener("click", closetest);
 
 function closetest() {
-    var test = document.getElementById("form-card");
-    test.style.display = "none";
+    var formCard = document.getElementById("form-card");
+    formCard.style.display = "none";
 }
+
